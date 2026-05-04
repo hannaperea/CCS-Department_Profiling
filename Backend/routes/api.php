@@ -39,18 +39,18 @@ use App\Http\Controllers\Api\AssignmentController;
 |
 */
 
-// Public auth routes
-Route::post('/register', [AuthController::class, 'register'])->middleware('cors');
-Route::post('/login', [AuthController::class, 'login'])->middleware('cors');
+// Test route
+Route::get('/test-cors', function() {
+    return response()->json([
+        'message' => 'CORS test successful',
+        'timestamp' => now(),
+        'origin' => request()->header('Origin')
+    ]);
+});
 
-// CORS test route
-Route::options('/login', function() {
-    return response('', 200)
-        ->header('Access-Control-Allow-Origin', 'https://ccs-department-profiling.vercel.app')
-        ->header('Access-Control-Allow-Methods', 'POST, OPTIONS')
-        ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
-        ->header('Access-Control-Allow-Credentials', 'true');
-})->middleware('cors');
+// Public auth routes
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
 // Public report routes
 Route::get('/reports/dashboard-stats', [ReportController::class, 'dashboardStats'])->withoutMiddleware([\App\Http\Middleware\Authenticate::class]);
