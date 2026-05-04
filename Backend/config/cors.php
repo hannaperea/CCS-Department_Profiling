@@ -1,30 +1,22 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
 return [
 
     /*
     |--------------------------------------------------------------------------
     | Cross-Origin Resource Sharing (CORS) Configuration
     |--------------------------------------------------------------------------
-    |
-    | Here you may configure your settings for cross-origin resource sharing
-    | or "CORS". This determines what cross-origin operations may execute
-    | in web browsers. You are free to adjust these settings as needed.
-    |
-    | To learn more: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-    |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie', 'login', 'logout'],
 
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-    'https://ccs-department-profiling.vercel.app',
-    'http://localhost:5173',
-], // <--- Make sure this comma and bracket are exactly like this.p://localhost:5173'
+        'https://ccs-department-profiling.vercel.app',
+        'https://ccs-department-profiling-lss5447mq-hannapereas-projects.vercel.app',
+        'http://localhost:5173',
+    ],
 
     'allowed_origins_patterns' => [],
 
@@ -34,6 +26,6 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => false,
+    'supports_credentials' => true,
 
 ];
