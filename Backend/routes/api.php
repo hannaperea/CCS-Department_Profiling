@@ -52,12 +52,6 @@ Route::get('/test-cors', function() {
 // Public auth routes
 Route::post('/register', [AuthController::class, 'register']);
 
-Route::options('/login', function() {
-    return response('', 200)
-        ->header('Access-Control-Allow-Origin', '*')
-        ->header('Access-Control-Allow-Methods', 'POST, OPTIONS')
-        ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept');
-});
 
 Route::post('/login', [AuthController::class, 'login']);
 
