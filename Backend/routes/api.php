@@ -59,13 +59,7 @@ Route::options('/login', function() {
         ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept');
 });
 
-Route::post('/login', [AuthController::class, 'login'])->middleware(function($request, $next) {
-    $response = $next($request);
-    $response->header('Access-Control-Allow-Origin', '*');
-    $response->header('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    $response->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept');
-    return $response;
-});
+Route::post('/login', [AuthController::class, 'login']);
 
 // Public report routes
 Route::get('/reports/dashboard-stats', [ReportController::class, 'dashboardStats'])->withoutMiddleware([\App\Http\Middleware\Authenticate::class]);
