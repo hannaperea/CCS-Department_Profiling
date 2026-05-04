@@ -39,11 +39,6 @@ use App\Http\Controllers\Api\AssignmentController;
 |
 */
 
-// Global CORS middleware for all API routes
-Route::middleware(function($request, $next) {
-    $response = $next($request);
-    return $response->cors($response->getContent(), $response->getStatusCode());
-})->group(function () {
 
 // Test route
 Route::get('/test-cors', function() {
@@ -58,10 +53,19 @@ Route::get('/test-cors', function() {
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::options('/login', function() {
-    return response()->cors('', 200);
+    return response('', 200)
+        ->header('Access-Control-Allow-Origin', '*')
+        ->header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+        ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept');
 });
 
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->middleware(function($request, $next) {
+    $response = $next($request);
+    $response->header('Access-Control-Allow-Origin', '*');
+    $response->header('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    $response->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept');
+    return $response;
+});
 
 // Public report routes
 Route::get('/reports/dashboard-stats', [ReportController::class, 'dashboardStats'])->withoutMiddleware([\App\Http\Middleware\Authenticate::class]);
@@ -228,8 +232,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('assignments', AssignmentController::class);
     Route::get('/my-assignments', [AssignmentController::class, 'index']);
 });
-
-}); // Close global CORS middleware group
 
 Route::middleware('auth:sanctum')->get('/test', function (Request $request) {
     return $request->user();
