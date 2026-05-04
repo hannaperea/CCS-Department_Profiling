@@ -39,6 +39,12 @@ use App\Http\Controllers\Api\AssignmentController;
 |
 */
 
+// Global CORS middleware for all API routes
+Route::middleware(function($request, $next) {
+    $response = $next($request);
+    return $response->cors($response->getContent(), $response->getStatusCode());
+})->group(function () {
+
 // Test route
 Route::get('/test-cors', function() {
     return response()->json([
@@ -50,6 +56,11 @@ Route::get('/test-cors', function() {
 
 // Public auth routes
 Route::post('/register', [AuthController::class, 'register']);
+
+Route::options('/login', function() {
+    return response()->cors('', 200);
+});
+
 Route::post('/login', [AuthController::class, 'login']);
 
 // Public report routes
@@ -217,6 +228,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('assignments', AssignmentController::class);
     Route::get('/my-assignments', [AssignmentController::class, 'index']);
 });
+
+}); // Close global CORS middleware group
 
 Route::middleware('auth:sanctum')->get('/test', function (Request $request) {
     return $request->user();
