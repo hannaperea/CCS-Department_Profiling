@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+const API_URL = import.meta.env.VITE_API_URL || "https://ccs-department-profiling-8elj.vercel.app/api";
 
 export const api = axios.create({
   baseURL: API_URL,
@@ -9,7 +9,7 @@ export const api = axios.create({
     "Content-Type": "application/json",
     Accept: "application/json",
   },
-  withCredentials: false, // Important for CORS
+  withCredentials: true, // Important for CORS with authentication
 });
 
 // Request interceptor to add auth token
